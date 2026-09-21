@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR" style="color-scheme:light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inclusão de Pessoas com Deficiência no Mercado de Trabalho</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --ink:#16232B;
+  --ink-soft:#3E5058;
+  --paper:#FBFAF6;
+  --paper-dim:#F0EEE7;
+  --navy:#16303F;
+  --navy-2:#1F4256;
+  --teal:#2C8577;
+  --teal-light:#DCEDE9;
+  --gold:#DE9F35;
+  --gold-light:#FBEDD2;
+  --coral:#C85A45;
+  --coral-light:#F6E2DD;
+  --line:rgba(22,35,43,0.12);
+  --line-on-dark:rgba(255,255,255,0.18);
+  --shadow:0 18px 40px rgba(16,32,41,0.14);
+  --radius:18px;
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Work Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --safe-t:env(safe-area-inset-top,0px);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+html{scroll-padding-top:var(--safe-t);}
+body{
+  margin:0;
+  font-family:var(--sans);
+  color:var(--ink);
+  background:var(--paper);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+img,svg{max-width:100%;display:block;}
+button{font-family:inherit;}
+h1,h2,h3{font-family:var(--serif);margin:0;font-weight:600;letter-spacing:-0.01em;}
+p{margin:0;line-height:1.55;}
+a{color:inherit;}
+
+::selection{background:var(--gold);color:var(--navy);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+}
+
+/* ============ APP SHELL ============ */
+.app{
+  position:relative;
+  height:100dvh;
+  width:100%;
+  overflow:hidden;
+}
+
+.deck{
+  height:100%;
+  width:100%;
+  position:relative;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(14px);
+  transition:opacity .5s ease, transform .5s ease, visibility 0s linear .5s;
+  padding-top:calc(var(--safe-t) + 0px);
+  padding-bottom:calc(var(--safe-b) + 0px);
+}
+.slide.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0);
+  transition:opacity .5s ease, transform .5s ease;
+  z-index:2;
+}
+
+.slide-inner{
+  flex:1;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:clamp(20px,5vw,64px) clamp(20px,6vw,96px) 100px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:0;
+}
+.slide-inner.top-align{ justify-content:flex-start; padding-top:clamp(70px,10vh,110px); }
+
+.wrap{ width:100%; max-width:1180px; margin:0 auto; }
+
+/* eyebrow / kicker */
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.02em;
+  color:var(--teal);
+  margin-bottom:14px;
+}
+.kicker .dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
+.slide.on-dark .kicker{color:var(--gold-light);}
+
+/* headings */
+.slide h1.headline{
+  font-size:clamp(2rem,5.4vw,3.6rem);
+  line-height:1.06;
+  max-width:16ch;
+}
+.slide h2.headline{
+  font-size:clamp(1.7rem,4vw,2.8rem);
+  line-height:1.1;
+  max-width:18ch;
+}
+.sub{
+  font-size:clamp(1rem,1.7vw,1.2rem);
+  color:var(--ink-soft);
+  max-width:56ch;
+  margin-top:16px;
+}
+.slide.on-dark .sub{color:rgba(255,255,255,0.78);}
+.slide.on-dark h1,.slide.on-dark h2,.slide.on-dark h3{color:#fff;}
+.slide.on-dark p{color:rgba(255,255,255,0.86);}
+.slide.on-dark{color:#fff;}
+
+/* backgrounds per slide */
+.bg-paper{background:var(--paper);}
+.bg-navy{background:linear-gradient(160deg,#122631,var(--navy) 55%,#0F2028);}
+.bg-teal{background:linear-gradient(160deg,#1F5F56,var(--teal) 60%,#1B4E47);}
+.bg-dim{background:var(--paper-dim);}
+.bg-gold{background:linear-gradient(160deg,#B97C22,var(--gold) 55%,#A9711F);}
+
+/* ============ CARDS / GRID ============ */
+.grid{ display:grid; gap:18px; margin-top:36px; }
+.grid.cols-2{ grid-template-columns:repeat(2,1fr); }
+.grid.cols-3{ grid-template-columns:repeat(3,1fr); }
+.grid.cols-4{ grid-template-columns:repeat(4,1fr); }
+
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px 22px 24px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.card .icon{
+  width:40px;height:40px;
+  color:var(--teal);
+  flex-shrink:0;
+}
+.card h3{ font-size:1.08rem; }
+.card p{ font-size:.94rem; color:var(--ink-soft); }
+
+.on-dark .card{
+  background:rgba(255,255,255,0.08);
+  border-color:rgba(255,255,255,0.16);
+  box-shadow:none;
+  backdrop-filter:blur(6px);
+}
+.on-dark .card .icon{ color:var(--gold); }
+.on-dark .card h3{ color:#fff; }
+.on-dark .card p{ color:rgba(255,255,255,0.78); }
+
+/* pill list (barriers etc.) */
+.rows{ display:flex; flex-direction:column; gap:10px; margin-top:32px; }
+.row-item{
+  display:flex; align-items:flex-start; gap:16px;
+  padding:16px 18px;
+  border-radius:14px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+.row-item .num{
+  font-family:var(--serif);
+  font-size:1.05rem;
+  color:var(--coral);
+  min-width:28px;
+}
+.row-item h3{ font-size:1rem; margin-bottom:2px; }
+.row-item p{ font-size:.92rem; color:var(--ink-soft); }
+
+/* three-column benefits */
+.benefit-col{
+  background:#fff;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.benefit-col h3{
+  font-size:1.15rem;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:2px solid var(--gold);
+}
+.benefit-col ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+.benefit-col li{ font-size:.92rem; color:var(--ink-soft); padding-left:18px; position:relative; }
+.benefit-col li::before{
+  content:'';
+  position:absolute; left:0; top:.55em;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal);
+}
+
+/* timeline (slide 8) */
+.timeline{ margin-top:36px; display:flex; flex-direction:column; gap:0; }
+.tl-item{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  gap:18px;
+  position:relative;
+  padding-bottom:26px;
+}
+.tl-item:last-child{ padding-bottom:0; }
+.tl-marker{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--navy);
+  color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif); font-weight:600; font-size:1.05rem;
+  position:relative; z-index:1;
+}
+.tl-item:not(:last-child)::before{
+  content:'';
+  position:absolute;
+  left:22px; top:44px; bottom:-4px;
+  width:2px;
+  background:var(--line);
+}
+.tl-body h3{ font-size:1.02rem; margin-bottom:3px;}
+.tl-body p{ font-size:.92rem; color:var(--ink-soft); }
+
+/* cover slide (1) */
+.cover{
+  display:grid;
+  grid-template-columns:1.3fr 1fr;
+  gap:40px;
+  align-items:center;
+}
+.cover-mark{
+  width:64px;height:64px;
+  color:var(--gold);
+  margin-bottom:26px;
+}
+.authors{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:30px;
+}
+.author-chip{
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.22);
+  font-size:.92rem;
+  font-weight:500;
+}
+.cover-quote{
+  border-left:3px solid var(--gold);
+  padding-left:18px;
+  margin-top:34px;
+  font-family:var(--serif);
+  font-size:clamp(1.05rem,2vw,1.3rem);
+  font-style:italic;
+  max-width:44ch;
+  color:rgba(255,255,255,0.92);
+}
+.cover-art{
+  aspect-ratio:1/1;
+  max-width:360px;
+  justify-self:center;
+}
+
+/* conclusion slide (9) */
+.conclusion-box{
+  text-align:left;
+  max-width:800px;
+}
+.conclusion-words{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:30px;
+}
+.word-chip{
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.3);
+  font-size:.95rem;
+  font-weight:600;
+}
+
+/* Slide 6 - autism */
+.spectrum-bar{
+  height:14px;
+  border-radius:999px;
+  background:linear-gradient(90deg,#2C8577,#DE9F35,#C85A45);
+  margin:28px 0 8px;
+  max-width:520px;
+}
+.spectrum-label{
+  display:flex;
+  justify-content:space-between;
+  max-width:520px;
+  font-size:.8rem;
+  color:var(--ink-soft);
+  font-weight:600;
+}
+
+/* ============ NAVIGATION ============ */
+.progress-track{
+  position:fixed;
+  top:var(--safe-t);
+  left:0; right:0;
+  height:3px;
+  background:rgba(0,0,0,0.06);
+  z-index:20;
+}
+.progress-fill{
+  height:100%;
+  background:var(--gold);
+  width:10%;
+  transition:width .45s ease;
+}
+
+.navbar{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:clamp(10px,3vw,22px);
+  padding:12px 16px calc(12px + var(--safe-b));
+  background:linear-gradient(to top, rgba(251,250,246,0.96) 60%, rgba(251,250,246,0));
+  backdrop-filter:blur(6px);
+}
+.nav-btn{
+  width:44px;height:44px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  color:var(--navy);
+  box-shadow:0 6px 16px rgba(16,32,41,0.10);
+  transition:transform .15s ease, background .15s ease;
+  flex-shrink:0;
+}
+.nav-btn:hover{ background:var(--gold-light); }
+.nav-btn:active{ transform:scale(0.93); }
+.nav-btn:disabled{ opacity:.35; cursor:not-allowed; }
+.nav-btn svg{ width:20px;height:20px; }
+.nav-btn:focus-visible, .dot:focus-visible, button:focus-visible, a:focus-visible{
+  outline:3px solid var(--teal); outline-offset:3px;
+}
+
+.dots{
+  display:flex;
+  gap:7px;
+  align-items:center;
+  padding:6px 12px;
+  background:#fff;
+  border-radius:999px;
+  border:1px solid var(--line);
+  box-shadow:0 6px 16px rgba(16,32,41,0.10);
+}
+.dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--line);
+  border:none;
+  padding:0;
+  cursor:pointer;
+  transition:all .25s ease;
+}
+.dot.active{ width:22px; border-radius:5px; background:var(--navy); }
+
+.slide-count{
+  font-size:.78rem;
+  font-weight:600;
+  color:var(--ink-soft);
+  min-width:44px;
+  text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+
+@media (max-width:640px){
+  .dots{ display:none; }
+  .navbar{ justify-content:space-between; }
+  .slide-count{ order:2; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .grid.cols-4{ grid-template-columns:repeat(2,1fr); }
+  .grid.cols-3{ grid-template-columns:repeat(2,1fr); }
+  .cover{ grid-template-columns:1fr; }
+  .cover-art{ max-width:220px; order:-1; }
+}
+@media (max-width:640px){
+  .grid.cols-2, .grid.cols-3, .grid.cols-4{ grid-template-columns:1fr; }
+  .slide-inner{ padding-bottom:120px; }
+  .benefit-col{ padding:20px; }
+}
+
+/* scrollbar tidy */
+.slide-inner::-webkit-scrollbar{ width:8px; }
+.slide-inner::-webkit-scrollbar-thumb{ background:var(--line); border-radius:8px; }
+
+/* ============ SLIDE 10 — EXTRA PAGE ============ */
+.extra-grid{
+  display:grid;
+  grid-template-columns:1fr 1.15fr;
+  gap:28px;
+  align-items:start;
+}
+@media (max-width:900px){ .extra-grid{ grid-template-columns:1fr; } }
+
+.qr-container{
+  background:#fff;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:26px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.qr-container #qrcode{
+  display:flex;
+  justify-content:center;
+  margin:0 auto 14px;
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  width:fit-content;
+}
+.qr-container img{ border-radius:4px; }
+.qr-url{
+  font-size:.85rem;
+  color:var(--ink-soft);
+  word-break:break-all;
+  margin-top:6px;
+}
+.qr-edit-hint{
+  font-size:.75rem;
+  color:var(--ink-soft);
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px dashed var(--line);
+}
+
+.game-panel{
+  background:#fff;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  padding:26px;
+  box-shadow:var(--shadow);
+}
+.game-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:6px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.game-score{
+  font-size:.85rem;
+  font-weight:600;
+  color:var(--teal);
+  background:var(--teal-light);
+  padding:6px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.game-progress-label{
+  font-size:.8rem;
+  color:var(--ink-soft);
+  margin-bottom:18px;
+}
+.game-question{
+  font-size:1.12rem;
+  font-family:var(--serif);
+  margin-bottom:18px;
+  line-height:1.35;
+}
+.game-options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.game-opt{
+  text-align:left;
+  padding:13px 16px;
+  border-radius:12px;
+  border:1.5px solid var(--line);
+  background:var(--paper-dim);
+  cursor:pointer;
+  font-size:.96rem;
+  color:var(--ink);
+  transition:border-color .15s ease, background .15s ease, transform .1s ease;
+}
+.game-opt:hover:not(:disabled){ border-color:var(--teal); background:#fff; }
+.game-opt:active:not(:disabled){ transform:scale(0.99); }
+.game-opt:disabled{ cursor:default; }
+.game-opt.correct{ border-color:var(--teal); background:var(--teal-light); }
+.game-opt.wrong{ border-color:var(--coral); background:var(--coral-light); }
+
+.game-feedback{
+  margin-top:16px;
+  padding:14px 16px;
+  border-radius:12px;
+  font-size:.9rem;
+  line-height:1.5;
+  display:none;
+}
+.game-feedback.show{ display:block; }
+.game-feedback.ok{ background:var(--teal-light); color:#164F45; }
+.game-feedback.bad{ background:var(--coral-light); color:#7A3627; }
+
+.game-next{
+  margin-top:16px;
+  padding:12px 22px;
+  border-radius:999px;
+  border:none;
+  background:var(--navy);
+  color:#fff;
+  font-weight:600;
+  font-size:.92rem;
+  cursor:pointer;
+  display:none;
+}
+.game-next.show{ display:inline-flex; align-items:center; gap:6px; }
+.game-next:hover{ background:var(--navy-2); }
+
+.game-final{
+  text-align:center;
+  padding:20px 0 4px;
+  display:none;
+}
+.game-final.show{ display:block; }
+.game-final .big{
+  font-family:var(--serif);
+  font-size:2.6rem;
+  color:var(--navy);
+}
+.game-restart{
+  margin-top:16px;
+  padding:12px 26px;
+  border-radius:999px;
+  border:1.5px solid var(--navy);
+  background:#fff;
+  color:var(--navy);
+  font-weight:600;
+  cursor:pointer;
+}
+.game-restart:hover{ background:var(--navy); color:#fff; }
+
+.sr-only{
+  position:absolute; width:1px;height:1px;
+  padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="deck" id="deck">
+
+    <!-- ================= SLIDE 1 — CAPA ================= -->
+    <section class="slide on-dark bg-navy active" data-slide="1" aria-label="Slide 1: Capa">
+      <div class="slide-inner">
+        <div class="wrap cover">
+          <div>
+            <svg class="cover-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+              <circle cx="32" cy="14" r="8" fill="currentColor"/>
+              <path d="M10 54c2-14 12-22 22-22s20 8 22 22" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+              <path d="M22 30 L32 46 L42 30" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+            <div class="kicker"><span class="dot"></span>Trabalho escolar</div>
+            <h1 class="headline">Inclusão de Pessoas com Deficiência no Mercado de Trabalho</h1>
+            <p class="sub">Acessibilidade, Oportunidades e Participação Igualitária</p>
+            <p class="cover-quote">"Incluir é abrir espaço para que cada pessoa mostre do que é capaz."</p>
+            <div class="authors" aria-label="Integrantes do grupo">
+              <span class="author-chip">Pedro</span>
+              <span class="author-chip">Wendel</span>
+              <span class="author-chip">Wender</span>
+              <span class="author-chip">Renato</span>
+            </div>
+          </div>
+          <svg class="cover-art" viewBox="0 0 320 320" fill="none" aria-hidden="true">
+            <circle cx="160" cy="160" r="150" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+            <circle cx="160" cy="160" r="108" stroke="#DE9F35" stroke-width="2" stroke-dasharray="6 10"/>
+            <g stroke="#fff" stroke-width="6" stroke-linecap="round">
+              <line x1="160" y1="60" x2="160" y2="96"/>
+              <line x1="160" y1="224" x2="160" y2="260"/>
+              <line x1="60" y1="160" x2="96" y2="160"/>
+              <line x1="224" y1="160" x2="260" y2="160"/>
+            </g>
+            <circle cx="160" cy="130" r="26" fill="#2C8577"/>
+            <path d="M112 210c8-30 26-46 48-46s40 16 48 46" stroke="#2C8577" stroke-width="8" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 2 — O QUE É INCLUSÃO ================= -->
+    <section class="slide bg-paper" data-slide="2" aria-label="Slide 2: O que é inclusão no mercado de trabalho">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Conceito</div>
+          <h2 class="headline">O que é inclusão no mercado de trabalho?</h2>
+          <p class="sub">É garantir que toda pessoa, independentemente de sua condição, tenha as mesmas chances reais de conseguir, manter e crescer em um emprego.</p>
+          <div class="grid cols-3">
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="12" r="6" stroke="currentColor" stroke-width="2.2"/><path d="M8 32c2-9 7-13 12-13s10 4 12 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M6 32h28" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <h3>Acesso igualitário</h3>
+              <p>As mesmas oportunidades de emprego para todas as pessoas, sem exceções.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6 L34 20 L20 34 L6 20 Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="20" cy="20" r="4" fill="currentColor"/></svg>
+              <h3>Respeito às diferenças</h3>
+              <p>Reconhecer que cada pessoa tem sua própria forma de trabalhar e contribuir.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="24" height="24" rx="6" stroke="currentColor" stroke-width="2.2"/><path d="M14 20h12M20 14v12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <h3>Acessibilidade</h3>
+              <p>Ambientes, ferramentas e comunicação adaptados para que todos consigam atuar.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 30 L16 18 L23 24 L32 10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M25 10h7v7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <h3>Desenvolvimento igual</h3>
+              <p>As mesmas chances de crescer, aprender e evoluir dentro da empresa.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="14" r="5" stroke="currentColor" stroke-width="2.2"/><circle cx="27" cy="14" r="5" stroke="currentColor" stroke-width="2.2"/><path d="M6 32c1-6 4-9 8-9s7 3 8 9M20 32c1-6 4-9 8-9s7 3 8 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              <h3>Participação ativa</h3>
+              <p>Fazer parte de fato das decisões, das equipes e da cultura da empresa.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6l4 8 9 1-6.5 6.5L28 30l-8-5-8 5 1.5-8.5L6.5 15l9-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg>
+              <h3>Valorização</h3>
+              <p>Ser reconhecido pelas habilidades e pelo trabalho entregue, não pela condição.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 3 — TIPOS DE DEFICIÊNCIA ================= -->
+    <section class="slide bg-dim" data-slide="3" aria-label="Slide 3: Pessoas com deficiência no trabalho">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Diversidade</div>
+          <h2 class="headline">Pessoas com deficiência no ambiente de trabalho</h2>
+          <p class="sub">A deficiência não define a capacidade de alguém. Com acessibilidade e condições adequadas, cada pessoa pode desempenhar sua função com autonomia e qualidade.</p>
+          <div class="grid cols-3">
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="12" cy="26" r="7" stroke="currentColor" stroke-width="2.2"/><circle cx="20" cy="10" r="3" fill="currentColor"/><path d="M20 13v8l7 4M20 21l-5 5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+              <h3>Deficiência física</h3>
+              <p>Pode envolver mobilidade reduzida; espaços acessíveis garantem autonomia total.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="20" rx="14" ry="8" stroke="currentColor" stroke-width="2.2"/><circle cx="20" cy="20" r="4" stroke="currentColor" stroke-width="2.2"/></svg>
+              <h3>Deficiência visual</h3>
+              <p>Leitores de tela e materiais em braile tornam qualquer função acessível.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M14 20c0-8 5-13 6-13s6 5 6 13-3 10-3 15c0 3-2 5-3 5s-3-2-3-5" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+              <h3>Deficiência auditiva</h3>
+              <p>Libras e comunicação visual permitem colaboração plena em equipe.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="2.2"/><path d="M14 22c2 3 4 4 6 4s4-1 6-4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg>
+              <h3>Deficiência intelectual</h3>
+              <p>Com instruções claras e apoio, a produtividade e o aprendizado acontecem normalmente.</p>
+            </div>
+            <div class="card">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 24c2-10 8-16 12-16s10 6 12 16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="20" cy="28" r="4" stroke="currentColor" stroke-width="2.2"/></svg>
+              <h3>Autismo e neurodivergências</h3>
+              <p>Diferentes formas de pensar, sentir e se comunicar — um espectro amplo de perfis.</p>
+            </div>
+            <div class="card" style="background:var(--gold-light);border-color:transparent;">
+              <svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6l4 8 9 1-6.5 6.5L28 30l-8-5-8 5 1.5-8.5L6.5 15l9-1z" stroke="var(--navy)" stroke-width="2" stroke-linejoin="round" fill="none"/></svg>
+              <h3>Capacidade, não incapacidade</h3>
+              <p>Deficiência não é sinônimo de limitação profissional — é uma característica entre tantas outras.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 4 — BARREIRAS ================= -->
+    <section class="slide on-dark bg-navy" data-slide="4" aria-label="Slide 4: Barreiras ao emprego">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Desafios</div>
+          <h2 class="headline">Barreiras ao emprego</h2>
+          <p class="sub">Antes de falar em soluções, é preciso entender o que ainda impede a entrada e a permanência de pessoas com deficiência no mercado de trabalho.</p>
+          <div class="grid cols-4">
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="6" y="18" width="28" height="4" rx="2" fill="currentColor"/><path d="M12 22v10M28 22v10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="20" cy="10" r="3" fill="currentColor"/></svg><h3>Inacessibilidade física</h3><p>Escadas, portas estreitas e ambientes sem adaptação.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="16" rx="2" stroke="currentColor" stroke-width="2.2"/><path d="M14 30h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 26v4" stroke="currentColor" stroke-width="2.2"/><line x1="12" y1="14" x2="24" y2="22" stroke="currentColor" stroke-width="2.2"/></svg><h3>Falta de tecnologia</h3><p>Ausência de recursos assistivos e ferramentas adaptadas.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="2.2"/><line x1="12" y1="12" x2="28" y2="28" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Preconceito e discriminação</h3><p>Julgamentos que ignoram habilidades reais.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 30c0-8 5-13 12-13s12 5 12 13" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M14 12l6-6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg><h3>Estereótipos</h3><p>Ideias generalizadas que não refletem a diversidade real.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="10" y="8" width="20" height="24" rx="3" stroke="currentColor" stroke-width="2.2"/><path d="M15 16h10M15 22h10" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Falta de adaptações</h3><p>Ausência de ajustes razoáveis nas rotinas de trabalho.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 14h16v10H16l-4 4v-4H8z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" fill="none"/><line x1="26" y1="22" x2="32" y2="22" stroke="currentColor" stroke-width="2.2"/></svg><h3>Barreiras de comunicação</h3><p>Falta de recursos como Libras e formatos acessíveis.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="2.2"/><path d="M20 13v7l5 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg><h3>Poucas oportunidades</h3><p>Baixa oferta real de vagas e processos seletivos acessíveis.</p></div>
+            <div class="card" style="background:rgba(222,159,53,0.16);border-color:rgba(222,159,53,0.4);"><svg class="icon" viewBox="0 0 40 40" fill="none" style="color:var(--gold)"><path d="M20 6c8 0 14 6 14 14s-6 14-14 14S6 28 6 20 12 6 20 6z" stroke="currentColor" stroke-width="2.2"/><path d="M20 14v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="20" cy="26" r="1.6" fill="currentColor"/></svg><h3>Resultado</h3><p>Essas barreiras, juntas, afastam talentos capazes do mercado.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 5 — ACESSIBILIDADE ================= -->
+    <section class="slide bg-paper" data-slide="5" aria-label="Slide 5: Acessibilidade no ambiente de trabalho">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Soluções práticas</div>
+          <h2 class="headline">Acessibilidade no ambiente de trabalho</h2>
+          <p class="sub">Pequenas e grandes mudanças que, juntas, tornam o trabalho possível e confortável para todas as pessoas.</p>
+          <div class="grid cols-3">
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="26" r="7" stroke="currentColor" stroke-width="2.2"/><path d="M14 26l6-14h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><circle cx="20" cy="10" r="2.4" fill="currentColor"/></svg><h3>Espaços acessíveis</h3><p>Ambientes pensados para cadeirantes, com rotas livres e amplas.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="10" y="8" width="20" height="24" rx="4" stroke="currentColor" stroke-width="2.2"/><path d="M15 24c1-3 3-4 5-4s4 1 5 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg><h3>Banheiros adaptados</h3><p>Estrutura adequada às necessidades de cada pessoa.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 32 L26 8 M18 32h8 M22 22h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></svg><h3>Rampas e elevadores</h3><p>Acesso vertical e horizontal sem obstáculos.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="8" y="10" width="24" height="16" rx="2" stroke="currentColor" stroke-width="2.2"/><path d="M13 30h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M13 15h14M13 19h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><h3>Leitores de tela</h3><p>Ferramentas que tornam sistemas e sites totalmente navegáveis.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="16" r="5" stroke="currentColor" stroke-width="2.2"/><path d="M8 30c1-6 3-8 6-8s5 2 6 8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M24 20l6 6M30 20l-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Intérprete de Libras</h3><p>Comunicação plena em reuniões e treinamentos.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="10" y="6" width="20" height="28" rx="2" stroke="currentColor" stroke-width="2.2"/><path d="M15 14h10M15 19h10M15 24h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><h3>Documentos acessíveis</h3><p>Textos em formatos legíveis por diferentes tecnologias.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 20h8l4-8 4 16 4-8h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><h3>Comunicação flexível</h3><p>Várias formas de transmitir a mesma informação.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="9" y="12" width="22" height="14" rx="3" stroke="currentColor" stroke-width="2.2"/><path d="M15 26v4M25 26v4M13 30h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Tecnologias assistivas</h3><p>Softwares e equipamentos que ampliam a autonomia.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M20 6l4 8 9 1-6.5 6.5L28 30l-8-5-8 5 1.5-8.5L6.5 15l9-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg><h3>Adaptações razoáveis</h3><p>Ajustes individuais que respeitam cada necessidade.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 6 — AUTISMO ================= -->
+    <section class="slide bg-teal on-dark" data-slide="6" aria-label="Slide 6: Inclusão de pessoas autistas">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Foco especial</div>
+          <h2 class="headline">Inclusão de pessoas autistas</h2>
+          <p class="sub">O autismo é um espectro: cada pessoa autista tem pontos fortes, necessidades e formas de se comunicar próprias. Não existe "um jeito único" de ser autista — e as habilidades profissionais devem ser avaliadas individualmente.</p>
+
+          <div class="spectrum-bar" role="img" aria-label="Representação do espectro autista, do mais discreto ao mais evidente"></div>
+          <div class="spectrum-label"><span>Perfis variados</span><span>Necessidades variadas</span></div>
+
+          <h3 style="margin-top:38px;font-size:1.15rem;">Adaptações que fazem diferença</h3>
+          <div class="grid cols-3" style="margin-top:18px;">
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="9" y="10" width="22" height="20" rx="3" stroke="currentColor" stroke-width="2.2"/><path d="M14 17h12M14 22h8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Instruções claras</h3><p>Orientações diretas, sem ambiguidade.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="13" stroke="currentColor" stroke-width="2.2"/><path d="M20 12v8l6 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><h3>Rotinas previsíveis</h3><p>Estrutura de horários e tarefas conhecida com antecedência.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M10 26V16a10 10 0 0120 0v10" stroke="currentColor" stroke-width="2.2" fill="none"/><rect x="8" y="24" width="6" height="8" rx="2" stroke="currentColor" stroke-width="2.2"/><rect x="26" y="24" width="6" height="8" rx="2" stroke="currentColor" stroke-width="2.2"/></svg><h3>Espaço tranquilo</h3><p>Ambientes com menos ruído e estímulos, quando necessário.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><rect x="10" y="6" width="20" height="28" rx="2" stroke="currentColor" stroke-width="2.2"/><path d="M15 14h10M15 19h10M15 24h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><h3>Instruções escritas</h3><p>Registro visual complementando o que é falado.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><path d="M8 20h8l4-8 4 16 4-8h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><h3>Comunicação flexível</h3><p>Vários canais disponíveis: texto, fala, imagens.</p></div>
+            <div class="card"><svg class="icon" viewBox="0 0 40 40" fill="none"><circle cx="14" cy="14" r="4" stroke="currentColor" stroke-width="2.2"/><circle cx="26" cy="14" r="4" stroke="currentColor" stroke-width="2.2"/><path d="M8 30c1-5 3-7 6-7M32 30c-1-5-3-7-6-7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><line x1="10" y1="24" x2="30" y2="24" stroke="currentColor" stroke-width="2" stroke-dasharray="2 3"/></svg><h3>Sensibilidade sensorial</h3><p>Atenção a luz, som e textura no espaço de trabalho.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 7 — BENEFÍCIOS ================= -->
+    <section class="slide bg-dim" data-slide="7" aria-label="Slide 7: Benefícios da inclusão">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Impacto</div>
+          <h2 class="headline">Quem ganha com a inclusão?</h2>
+          <p class="sub">A inclusão gera resultados reais — para quem é incluído, para as empresas e para a sociedade como um todo.</p>
+          <div class="grid cols-3" style="margin-top:30px;">
+            <div class="benefit-col">
+              <h3>Para as pessoas</h3>
+              <ul>
+                <li>Mais oportunidades profissionais</li>
+                <li>Independência</li>
+                <li>Renda própria</li>
+                <li>Desenvolvimento profissional</li>
+                <li>Participação social</li>
+              </ul>
+            </div>
+            <div class="benefit-col">
+              <h3>Para as empresas</h3>
+              <ul>
+                <li>Diversidade de perspectivas</li>
+                <li>Acesso a mais talentos</li>
+                <li>Mais inovação</li>
+                <li>Cultura organizacional mais forte</li>
+                <li>Melhor entendimento dos clientes</li>
+              </ul>
+            </div>
+            <div class="benefit-col">
+              <h3>Para a sociedade</h3>
+              <ul>
+                <li>Mais igualdade</li>
+                <li>Maior participação social</li>
+                <li>Redução da discriminação</li>
+                <li>Participação econômica ampliada</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 8 — O QUE AS EMPRESAS PODEM FAZER ================= -->
+    <section class="slide bg-paper" data-slide="8" aria-label="Slide 8: O que as empresas podem fazer">
+      <div class="slide-inner">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Passo a passo</div>
+          <h2 class="headline">O que as empresas podem fazer?</h2>
+          <p class="sub">Promover inclusão é um processo contínuo. Estas são ações concretas que qualquer empresa pode colocar em prática.</p>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-marker">1</div><div class="tl-body"><h3>Recrutar pessoas com deficiência</h3><p>Abrir processos seletivos verdadeiramente acessíveis.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">2</div><div class="tl-body"><h3>Tornar os espaços acessíveis</h3><p>Adaptar estrutura física e digital do ambiente de trabalho.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">3</div><div class="tl-body"><h3>Oferecer adaptações razoáveis</h3><p>Ajustar rotinas e ferramentas conforme cada necessidade.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">4</div><div class="tl-body"><h3>Capacitar a equipe</h3><p>Treinar todos os colaboradores sobre inclusão e respeito.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">5</div><div class="tl-body"><h3>Combater a discriminação</h3><p>Ter políticas claras contra preconceito no ambiente de trabalho.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">6</div><div class="tl-body"><h3>Tornar a comunicação acessível</h3><p>Usar Libras, materiais legíveis e canais diversos.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">7</div><div class="tl-body"><h3>Avaliar por competência</h3><p>Medir desempenho pelas habilidades reais, não por suposições.</p></div></div>
+            <div class="tl-item"><div class="tl-marker">8</div><div class="tl-body"><h3>Criar oportunidades de crescimento</h3><p>Garantir que a inclusão continue além da contratação.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 9 — CONCLUSÃO ================= -->
+    <section class="slide on-dark bg-navy" data-slide="9" aria-label="Slide 9: Conclusão">
+      <div class="slide-inner">
+        <div class="wrap conclusion-box">
+          <div class="kicker"><span class="dot"></span>Para lembrar</div>
+          <h2 class="headline" style="max-width:22ch;font-size:clamp(1.8rem,4.4vw,3rem);">Inclusão não é apenas dar um emprego.</h2>
+          <p class="sub" style="font-size:clamp(1.05rem,2vw,1.3rem);max-width:52ch;">É criar as condições necessárias para que a pessoa participe, desenvolva suas habilidades e tenha oportunidades verdadeiramente iguais.</p>
+          <div class="conclusion-words" aria-label="Palavras-chave">
+            <span class="word-chip">Respeito</span>
+            <span class="word-chip">Acessibilidade</span>
+            <span class="word-chip">Igualdade</span>
+            <span class="word-chip">Oportunidade</span>
+            <span class="word-chip">Diversidade</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SLIDE 10 — EXTRA: QR CODE + JOGO ================= -->
+    <section class="slide bg-dim" data-slide="10" aria-label="Slide 10: Página extra, QR Code e jogo">
+      <div class="slide-inner top-align">
+        <div class="wrap">
+          <div class="kicker"><span class="dot"></span>Página extra</div>
+          <h2 class="headline" style="font-size:clamp(1.5rem,3.4vw,2.2rem);">Acesse e teste seus conhecimentos</h2>
+          <p class="sub" style="margin-bottom:8px;">Escaneie o QR Code para acessar esta apresentação em outro dispositivo, ou jogue o mini quiz sobre inclusão.</p>
+
+          <div class="extra-grid" style="margin-top:30px;">
+
+            <!-- QR CODE SECTION -->
+            <div class="qr-container">
+              <div id="qrcode" aria-hidden="true"></div>
+              <p><strong>Escaneie para acessar a apresentação</strong></p>
+              <p class="qr-url" id="qrUrlText">https://YOUR-PRESENTATION-URL.com</p>
+              <p class="qr-edit-hint">Para usar em outro projeto, edite a constante <code>PRESENTATION_URL</code> no início do script — o QR Code é gerado automaticamente a partir dela.</p>
+            </div>
+
+            <!-- MINI GAME SECTION -->
+            <div class="game-panel">
+              <div class="game-head">
+                <h3 style="font-size:1.1rem;">Quiz: Inclusão em ação</h3>
+                <span class="game-score" id="gameScore">Pontos: 0 / 0</span>
+              </div>
+              <p class="game-progress-label" id="gameProgress">Pergunta 1 de 5</p>
+
+              <div id="gameArea">
+                <p class="game-question" id="gameQuestion"></p>
+                <div class="game-options" id="gameOptions"></div>
+                <div class="game-feedback" id="gameFeedback"></div>
+                <button class="game-next" id="gameNext">Próxima pergunta →</button>
+              </div>
+
+              <div class="game-final" id="gameFinal">
+                <p style="font-size:.9rem;color:var(--ink-soft);">Você concluiu o quiz!</p>
+                <p class="big" id="gameFinalScore">0/5</p>
+                <p style="font-size:.92rem;color:var(--ink-soft);" id="gameFinalMsg"></p>
+                <button class="game-restart" id="gameRestart">Jogar novamente</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar" aria-label="Navegação de slides">
+    <button class="nav-btn" id="prevBtn" aria-label="Slide anterior">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dots" id="dots" role="tablist" aria-label="Ir para o slide"></div>
+    <span class="slide-count" id="slideCount">1 / 10</span>
+    <button class="nav-btn" id="nextBtn" aria-label="Próximo slide">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </nav>
+</div>
+
+<!-- QR Code generator library (client-side only, no external requests at scan-time) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ============ SLIDE NAVIGATION ============ */
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var total = slides.length;
+  var current = 0;
+
+  var deck = document.getElementById('deck');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var dotsWrap = document.getElementById('dots');
+  var slideCount = document.getElementById('slideCount');
+  var progressFill = document.getElementById('progressFill');
+
+  slides.forEach(function(s, i){
+    var d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('role','tab');
+    d.setAttribute('aria-label', 'Ir para slide ' + (i+1));
+    d.addEventListener('click', function(){ goTo(i); });
+    dotsWrap.appendChild(d);
+  });
+  var dotEls = Array.prototype.slice.call(dotsWrap.children);
+
+  function render(){
+    slides.forEach(function(s, i){
+      s.classList.toggle('active', i === current);
+    });
+    dotEls.forEach(function(d, i){
+      d.classList.toggle('active', i === current);
+    });
+    slideCount.textContent = (current + 1) + ' / ' + total;
+    progressFill.style.width = (((current + 1) / total) * 100) + '%';
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+    slides[current].querySelector('.slide-inner').scrollTop = 0;
+  }
+
+  function goTo(i){
+    if(i < 0 || i >= total) return;
+    current = i;
+    render();
+  }
+
+  prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+
+  document.addEventListener('keydown', function(e){
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if(tag === 'BUTTON' && (e.key === 'Enter' || e.key === ' ')) return;
+    if(e.key === 'ArrowRight' || e.key === 'PageDown'){ goTo(current + 1); }
+    else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ goTo(current - 1); }
+    else if(e.key === 'Home'){ goTo(0); }
+    else if(e.key === 'End'){ goTo(total - 1); }
+  });
+
+  /* touch swipe */
+  var touchStartX = null, touchStartY = null;
+  deck.addEventListener('touchstart', function(e){
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, {passive:true});
+  deck.addEventListener('touchend', function(e){
+    if(touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)){
+      if(dx < 0) goTo(current + 1); else goTo(current - 1);
+    }
+    touchStartX = null; touchStartY = null;
+  }, {passive:true});
+
+  render();
+
+  /* ============ QR CODE ============ */
+  var PRESENTATION_URL = ""; // <-- replace with the real URL when published
+  document.getElementById('qrUrlText').textContent = PRESENTATION_URL;
+
+  try{
+    if (typeof QRCode !== 'undefined'){
+      new QRCode(document.getElementById('qrcode'), {
+        text: PRESENTATION_URL,
+        width: 168,
+        height: 168,
+        colorDark: "#16303F",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } else {
+      document.getElementById('qrcode').innerHTML = '<p style="font-size:.8rem;color:var(--ink-soft);padding:20px;">QR Code indisponível offline.</p>';
+    }
+  }catch(err){
+    document.getElementById('qrcode').innerHTML = '<p style="font-size:.8rem;color:var(--ink-soft);padding:20px;">QR Code indisponível.</p>';
+  }
+
+  /* ============ MINI GAME: INCLUSION QUIZ ============ */
+  var QUESTIONS = [
+    {
+      q: "Uma colaboradora autista pede para receber as tarefas do dia por escrito, além de faladas. Qual é a melhor atitude?",
+      options: [
+        "Atender o pedido — instruções escritas ajudam na clareza e na organização.",
+        "Recusar, pois todos devem receber as instruções da mesma forma.",
+        "Ignorar o pedido, já que ela pode simplesmente prestar mais atenção."
+      ],
+      correct: 0,
+      feedback: "Adaptações simples, como instruções por escrito, tornam o trabalho mais claro sem prejudicar ninguém."
+    },
+    {
+      q: "Um candidato cadeirante é aprovado para uma vaga, mas o escritório só tem escadas. O que a empresa deve fazer?",
+      options: [
+        "Cancelar a contratação para evitar custos.",
+        "Adaptar o acesso, como instalar rampa ou elevador, ou mudar a sala.",
+        "Pedir que o candidato aceite ajuda de colegas para subir as escadas todos os dias."
+      ],
+      correct: 1,
+      feedback: "A empresa deve garantir acessibilidade física real, não transferir esse problema para o próprio candidato."
+    },
+    {
+      q: "Qual afirmação sobre o autismo está correta?",
+      options: [
+        "Todas as pessoas autistas têm exatamente as mesmas características.",
+        "O autismo é um espectro, com perfis, forças e necessidades diferentes entre si.",
+        "Pessoas autistas não conseguem trabalhar em equipe."
+      ],
+      correct: 1,
+      feedback: "O autismo é um espectro — cada pessoa autista é única, com suas próprias habilidades e formas de se comunicar."
+    },
+    {
+      q: "Uma funcionária surda participa das reuniões da empresa. Qual prática melhora sua inclusão?",
+      options: [
+        "Disponibilizar intérprete de Libras ou legendas nas reuniões.",
+        "Resumir a reunião para ela depois, por mensagem, sem intérprete.",
+        "Reduzir sua participação a temas mais simples."
+      ],
+      correct: 0,
+      feedback: "Intérprete de Libras ou legendas garantem participação plena e em tempo real, como qualquer outro colaborador."
+    },
+    {
+      q: "Por que a inclusão de pessoas com deficiência também é positiva para as empresas?",
+      options: [
+        "Porque é uma obrigação sem nenhum outro benefício.",
+        "Porque amplia o acesso a talentos, traz diversidade de perspectivas e estimula inovação.",
+        "Porque reduz a necessidade de treinar a equipe."
+      ],
+      correct: 1,
+      feedback: "Equipes diversas trazem novos pontos de vista, o que fortalece a cultura da empresa e impulsiona a inovação."
+    }
+  ];
+
+  var qIndex = 0;
+  var score = 0;
+  var answered = false;
+
+  var elQuestion = document.getElementById('gameQuestion');
+  var elOptions = document.getElementById('gameOptions');
+  var elFeedback = document.getElementById('gameFeedback');
+  var elNext = document.getElementById('gameNext');
+  var elScore = document.getElementById('gameScore');
+  var elProgress = document.getElementById('gameProgress');
+  var elGameArea = document.getElementById('gameArea');
+  var elFinal = document.getElementById('gameFinal');
+  var elFinalScore = document.getElementById('gameFinalScore');
+  var elFinalMsg = document.getElementById('gameFinalMsg');
+  var elRestart = document.getElementById('gameRestart');
+
+  function loadQuestion(){
+    answered = false;
+    var item = QUESTIONS[qIndex];
+    elQuestion.textContent = item.q;
+    elOptions.innerHTML = '';
+    elFeedback.className = 'game-feedback';
+    elFeedback.textContent = '';
+    elNext.className = 'game-next';
+    elProgress.textContent = 'Pergunta ' + (qIndex + 1) + ' de ' + QUESTIONS.length;
+
+    item.options.forEach(function(optText, i){
+      var btn = document.createElement('button');
+      btn.className = 'game-opt';
+      btn.type = 'button';
+      btn.textContent = optText;
+      btn.addEventListener('click', function(){ selectAnswer(i, btn); });
+      elOptions.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(i, btn){
+    if(answered) return;
+    answered = true;
+    var item = QUESTIONS[qIndex];
+    var allBtns = Array.prototype.slice.call(elOptions.children);
+    allBtns.forEach(function(b){ b.disabled = true; });
+
+    if(i === item.correct){
+      score++;
+      btn.classList.add('correct');
+      elFeedback.className = 'game-feedback show ok';
+      elFeedback.textContent = 'Correto! ' + item.feedback;
+    } else {
+      btn.classList.add('wrong');
+      allBtns[item.correct].classList.add('correct');
+      elFeedback.className = 'game-feedback show bad';
+      elFeedback.textContent = 'Não é bem isso. ' + item.feedback;
+    }
+    elScore.textContent = 'Pontos: ' + score + ' / ' + QUESTIONS.length;
+    elNext.className = 'game-next show';
+    elNext.textContent = (qIndex < QUESTIONS.length - 1) ? 'Próxima pergunta →' : 'Ver resultado';
+  }
+
+  elNext.addEventListener('click', function(){
+    if(qIndex < QUESTIONS.length - 1){
+      qIndex++;
+      loadQuestion();
+    } else {
+      finishGame();
+    }
+  });
+
+  function finishGame(){
+    elGameArea.style.display = 'none';
+    elFinal.className = 'game-final show';
+    elFinalScore.textContent = score + '/' + QUESTIONS.length;
+    var msg;
+    if(score === QUESTIONS.length) msg = 'Excelente! Você entende bem o que é inclusão na prática.';
+    else if(score >= QUESTIONS.length - 2) msg = 'Muito bom! Você tem uma boa noção sobre inclusão no trabalho.';
+    else msg = 'Vale revisar os slides — a inclusão fica mais clara com a prática.';
+    elFinalMsg.textContent = msg;
+  }
+
+  elRestart.addEventListener('click', function(){
+    qIndex = 0; score = 0;
+    elScore.textContent = 'Pontos: 0 / ' + QUESTIONS.length;
+    elFinal.className = 'game-final';
+    elGameArea.style.display = '';
+    loadQuestion();
+  });
+
+  loadQuestion();
+
+})();
+</script>
+</body>
+</html>
